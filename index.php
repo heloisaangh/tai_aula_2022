@@ -1,79 +1,45 @@
 <?php
-  if (!empty($_GET['q'])) {
-    switch ($_GET['q']) {
-      case 'info':
-        phpinfo(); 
-        exit;
-      break;
-    }
-  }
-?>
+include "./database/db.php" ?>
 <!DOCTYPE html>
-<html>
-    <head>
-        <title>Laragon</title>
+<html lang="en">
 
-        <link href="https://fonts.googleapis.com/css?family=Karla:400" rel="stylesheet" type="text/css">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
 
-        <style>
-            html, body {
-                height: 100%;
-            }
+<body>
 
-            body {
-                margin: 0;
-                padding: 0;
-                width: 100%;
-                display: table;
-                font-weight: 100;
-                font-family: 'Karla';
-            }
+    <br>
+    <?php
+    $objBD = new BD();
+    $objBD->conn(); //abre a conexão
+    $result = $objBD->select(); // retorna um array com os dados do bd
+    foreach ($result as $item) {
+        echo "ID:" . $item['id'] . " Nome: " . $item['nome'] . "<br>";
+    }
 
-            .container {
-                text-align: center;
-                display: table-cell;
-                vertical-align: middle;
-            }
+    if (!empty($_POST)) {
+        echo "Salvar<br>";
+        var_dump($_POST);
+        $objBD->inserir($_POST);
+        header("Location:index.php");
+    }
 
-            .content {
-                text-align: center;
-                display: inline-block;
-            }
+    ?>
 
-            .title {
-                font-size: 96px;
-            }
+<h2>Formulário Cliente</h2>
+    <form action="index.php" method="post">
+        <label for="nome">Nome:</label></br>
+        <input type="text" id="id" name="nome"></br>
+        <label>Telefone:</label></br>
+        <input type="text" id="id1" name="telefone" placeholder="(49)99999-9999"></br>
+        <lablel for="cpf">CPF:</lablel></br>
+        <input type="text" id="id2" name="cpf" placeholder="000.000.000.00"><br></br>
+        <input type="submit" value="Salvar">
+    </form>
+</body>
 
-            .opt {
-                margin-top: 30px;
-            }
-
-            .opt a {
-              text-decoration: none;
-              font-size: 150%;
-            }
-            
-            a:hover {
-              color: red;
-            }
-        </style>
-    </head>
-    <body>
-        <div class="container">
-            <div class="content">
-                <div class="title" title="Laragon">Laragon</div>
-     
-                <div class="info"><br />
-                      <?php print($_SERVER['SERVER_SOFTWARE']); ?><br />
-                      PHP version: <?php print phpversion(); ?>   <span><a title="phpinfo()" href="/?q=info">info</a></span><br />
-                      Document Root: <?php print ($_SERVER['DOCUMENT_ROOT']); ?><br />
-
-                </div>
-                <div class="opt">
-                  <div><a title="Getting Started" href="https://laragon.org/docs">Getting Started</a></div>
-                </div>
-            </div>
-
-        </div>
-    </body>
 </html>
