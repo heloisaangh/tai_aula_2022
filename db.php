@@ -22,27 +22,59 @@ class BD
         );
     }
 
-    public function select()
-    {
+    public function select(){
         $conn = $this->conn();
         $st = $conn->prepare("SELECT * FROM usuario;");
         $st->execute();
         return $st;
     }
-    public function inserir($dados)
-    {
+
+    public function inserir($dados){
         $conn = $this->conn();
-        $sql = "INSERT INTO usuario(nome,telefone,cpf) value(?,?,?)";
+        $sql = "INSERT INTO usuario(nome,telefone,cpf) value(?,?,?)"; //? recebe valores do formulário, nas posições do vetor
         $st = $conn->prepare($sql);
         $arryDados = []; //receber valores do formulario em forma de array
         $arryDados[] = $dados['nome'];
         $arryDados[] = $dados['telefone'];
         $arryDados[] = $dados['cpf'];
-        $st->execute($arryDados);//passa o vetor 
+        $st->execute($arryDados); //passa o vetor 
 
         return $st;
     }
-    public function insert()
-    {
+    public function update($dados){
+        $conn = $this->conn();
+        $sql = "UPDATE usuario SET 'nome'=?, 'telefone'=?, 'cpf'=? WHERE 'id'=?"; //? recebe valores do formulário, nas posições do vetor
+        $st = $conn->prepare($sql);
+        $arryDados = []; //receber valores do formulario em forma de array
+        $arryDados[] = $dados['nome'];
+        $arryDados[] = $dados['telefone'];
+        $arryDados[] = $dados['cpf'];
+        $arryDados[] = $dados['id'];
+        $st->execute($arryDados); //passa o vetor 
+
+        return $st;
+    }
+
+    public function remover($dados){
+        $conn = $this->conn();
+        $sql = "DELETE FROM usuario WHERE id=?"; //? deleta valores do formulário, nas posições do vetor
+        $st = $conn->prepare($sql);
+        $arryDados = []; //receber valores do formulario em forma de array
+        $arryDados[] = $dados['id'];
+        $st->execute($arryDados); //passa o vetor 
+
+        return $st;
+    }
+    public function buscar($dados){
+        $conn = $this->conn();
+        $sql = "INSERT INTO * FROM usuario"; //? recebe valores do formulário, nas posições do vetor
+        $st = $conn->prepare($sql);
+        $arryDados = []; //receber valores do formulario em forma de array
+        $arryDados[] = $dados['nome'];
+        $arryDados[] = $dados['telefone'];
+        $arryDados[] = $dados['cpf'];
+        $st->execute($arryDados); //passa o vetor 
+
+        return $st->fetchObject();
     }
 }
